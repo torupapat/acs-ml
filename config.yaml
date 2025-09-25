@@ -1,0 +1,114 @@
+# ACS-ML Trading System Configuration
+
+# Data Collection Settings
+data:
+  raw_path: "data/raw"
+  processed_path: "data/processed"
+  collection_interval_minutes: 60
+  
+  # Currency pairs to monitor (28 pairs required by indicator)
+  currency_pairs:
+    - "AUDCAD"
+    - "AUDCHF"
+    - "AUDJPY"
+    - "AUDNZD"
+    - "AUDUSD"
+    - "CADCHF"
+    - "CADJPY"
+    - "CHFJPY"
+    - "EURAUD"
+    - "EURCAD"
+    - "EURCHF"
+    - "EURGBP"
+    - "EURJPY"
+    - "EURNZD"
+    - "EURUSD"
+    - "GBPAUD"
+    - "GBPCAD"
+    - "GBPCHF"
+    - "GBPJPY"
+    - "GBPNZD"
+    - "GBPUSD"
+    - "NZDCAD"
+    - "NZDCHF"
+    - "NZDJPY"
+    - "NZDUSD"
+    - "USDCAD"
+    - "USDCHF"
+    - "USDJPY"
+
+# Dynamic Forex28 Navigator Settings
+indicator:
+  name: "Dynamic_Forex28_Navigator"
+  
+  # Signal types to collect
+  signals:
+    currency_strength: true      # 8 currency strength values
+    buy_sell_momentum: true      # BUY/SELL momentum arrows
+    dual_momentum: true          # Dual momentum signals
+    market_fibonacci: true       # MFib 23, 100, 161, 261
+    outer_range: true           # ±100 overbought/oversold warnings
+    hook_alerts: true           # Reversal signals
+    xstop_signals: true         # Market exhaustion warnings
+    market_activity: true       # Market activity status (5 states)
+  
+  # Market Fibonacci Levels
+  mfib_levels: [23, 100, 161, 261]
+  outer_range_levels: [-100, 100]
+
+# Machine Learning Settings
+ml:
+  # Feature engineering
+  lookback_periods: [5, 10, 20, 50]  # Periods for technical indicators
+  
+  # Model training
+  train_test_split: 0.8
+  validation_split: 0.2
+  
+  # Walk-forward validation
+  walk_forward:
+    train_window_months: 3
+    test_window_months: 1
+    step_size_days: 7
+  
+  # Models to evaluate
+  models:
+    - "RandomForest"
+    - "XGBoost" 
+    - "LSTM"
+    - "SVM"
+
+# Trading Settings
+trading:
+  # Risk management
+  max_risk_per_trade: 0.02      # 2% risk per trade
+  max_concurrent_trades: 3       # Maximum open positions
+  
+  # Position sizing
+  position_sizing_method: "fixed_fraction"  # or "kelly", "fixed_amount"
+  
+  # Signal filtering
+  min_signal_confidence: 0.7     # Minimum ML model confidence
+  require_dual_momentum: true    # Require dual momentum confirmation
+  respect_outer_range: true      # Avoid trading outside ±100 range
+
+# File Communication (MT4 ↔ Python)
+communication:
+  # File paths for MT4 communication
+  mt4_data_path: "data/raw"
+  signal_output_path: "data/signals"
+  
+  # File naming patterns
+  price_file_pattern: "{pair}_prices_{date}.csv"
+  signal_file_pattern: "{pair}_signals_{date}.csv"
+  prediction_file_pattern: "{pair}_predictions_{timestamp}.csv"
+  
+  # Update intervals
+  prediction_update_interval_seconds: 60
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  file: "logs/acs_ml.log"
+  max_file_size_mb: 100
+  backup_count: 5

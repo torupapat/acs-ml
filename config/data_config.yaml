@@ -1,0 +1,137 @@
+# ACS-ML Trading System Configuration
+# Configuration for Dynamic Forex28 Navigator data collection and ML training
+
+paths:
+  # Data directories
+  raw_data: "data/raw"
+  processed_data: "data/processed"
+  mt4_exports: "data/mt4_exports"  # Where MT4 EA writes CSV files
+  models: "models"
+  logs: "logs"
+
+# Data collection settings
+collection:
+  batch_size: 1000
+  max_memory_mb: 512
+  cleanup_days: 30
+  file_watch_interval: 1  # seconds
+
+# Dynamic Forex28 Navigator indicator settings
+indicators:
+  # Currency strength settings
+  currencies: ["USD", "EUR", "GBP", "JPY", "CHF", "CAD", "AUD", "NZD"]
+  
+  # Momentum trigger settings (from indicator manual)
+  momentum_trigger_range: [18, 26]
+  default_momentum_trigger: 23
+  
+  # Market Fibonacci levels (unique to Dynamic Forex28 Navigator)
+  mfib_levels: [23, 100, 161, 261]
+  
+  # Outer Range levels for overbought/oversold warnings
+  outer_range_levels: [100, 161, 261]
+  outer_range_max: 161
+  
+  # Alert settings
+  hook_fib_trigger_range: [161, 262]
+  hook_min_dual_momentum: 20
+  cross_fib_slope_range: [20, 46]
+
+# Machine Learning configuration
+ml:
+  # Feature engineering
+  lookback_periods: [5, 10, 20, 50]
+  technical_indicators:
+    - "RSI"
+    - "MACD" 
+    - "Bollinger_Bands"
+    - "ATR"
+    - "SMA"
+    - "EMA"
+  
+  # Model training
+  train_test_split: 0.8
+  validation_split: 0.2
+  walk_forward_steps: 252  # Trading days
+  
+  # Model parameters
+  random_state: 42
+  max_features: 50
+  models:
+    - "RandomForest"
+    - "XGBoost"
+    - "LSTM"
+
+# Trading configuration
+trading:
+  # Risk management
+  max_risk_per_trade: 0.02  # 2% of account
+  max_daily_risk: 0.06      # 6% of account per day
+  max_concurrent_trades: 5
+  
+  # Position sizing
+  position_sizing_method: "fixed_fractional"
+  kelly_criterion: false
+  
+  # Stop loss and take profit
+  default_stop_loss: 50     # pips
+  default_take_profit: 100  # pips
+  trailing_stop: true
+  
+  # Currency pairs to trade (28 pairs from indicator)
+  tradeable_pairs:
+    - "EURUSD"
+    - "GBPUSD" 
+    - "USDJPY"
+    - "USDCHF"
+    - "USDCAD"
+    - "AUDUSD"
+    - "NZDUSD"
+    - "EURGBP"
+    - "EURJPY"
+    - "EURCHF"
+    - "EURCAD"
+    - "EURAUD"
+    - "EURNZD"
+    - "GBPJPY"
+    - "GBPCHF"
+    - "GBPCAD"
+    - "GBPAUD"
+    - "GBPNZD"
+    - "CHFJPY"
+    - "CADJPY"
+    - "CADCHF"
+    - "AUDJPY"
+    - "AUDCHF"
+    - "AUDCAD"
+    - "AUDNZD"
+    - "NZDJPY"
+    - "NZDCHF"
+    - "NZDCAD"
+
+# MT4 integration settings
+mt4:
+  # File-based communication (no direct API)
+  export_interval: 60       # seconds
+  signal_file: "ml_signals.csv"
+  status_file: "ea_status.csv"
+  
+  # Data validation
+  max_file_age_minutes: 5
+  required_columns:
+    ohlcv: ["timestamp", "open", "high", "low", "close", "volume"]
+    signals: ["timestamp", "currency_strength", "momentum_value", "market_activity"]
+
+# Logging configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  max_file_size_mb: 10
+  backup_count: 5
+  
+# Development settings
+development:
+  debug: false
+  profile_performance: false
+  save_intermediate_results: true
+  plot_training_curves: true

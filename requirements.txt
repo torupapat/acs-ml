@@ -1,0 +1,52 @@
+# Core data processing
+pandas==2.3.2
+numpy==2.2.6  # Compatible with numba 0.61.2 requirement (<2.3)
+
+# Machine Learning
+scikit-learn==1.7.2  # Updated from 1.5.0
+tensorflow==2.20.0  # Updated from 2.17.0
+# pytorch==2.4.0  # Alternative to TensorFlow
+# torchvision==0.19.0
+
+# Data visualization
+matplotlib==3.10.6  # Updated from 3.9.0
+seaborn==0.13.2  # Updated from 0.13.0
+plotly==6.3.0  # Updated from 5.23.0
+
+# Technical indicators
+TA-Lib==0.6.7  # Updated from 0.4.25
+# Note: TA-Lib requires separate C library installation
+# pip install TA-Lib (after installing C library)
+
+# Alternative technical analysis
+pandas-ta==0.4.71b0  # Updated from 0.3.14b0
+
+# Time series analysis
+statsmodels==0.14.5  # Updated from 0.14.0
+
+# Configuration and utilities
+python-dotenv==1.1.1  # Updated from 1.0.1
+pyyaml==6.0.2
+click==8.3.0  # Updated from 8.1.7
+
+# MT4 Integration utilities
+# pywin32==306  # For Windows only - will be installed conditionally
+watchdog==6.0.0  # Updated from 4.0.2
+
+# Jupyter notebook support (optional)
+jupyter==1.1.1
+ipykernel==6.30.1  # Updated from 6.29.0
+
+# Development and testing
+pytest==8.4.2  # Updated from 8.3.0
+black==25.9.0  # Updated from 24.8.0
+flake8==7.3.0  # Updated from 7.1.0
+
+# Logging and monitoring
+loguru==0.7.3  # Updated from 0.7.2
+
+# Performance optimization
+numba==0.61.2  # JIT compilation for numerical functions (matches pandas-ta requirement)
+
+# Task scheduling
+schedule==1.2.2
